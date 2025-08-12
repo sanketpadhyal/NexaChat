@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" href="assets/key.png"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NexaChat | Admin Panel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: #f0f0f0;
+      background: url('assets/bg.jpg') no-repeat center center fixed, linear-gradient(-45deg, #2b1055, #7597de, #1c0522, #00e676);
+      background-size: cover;
+      animation: gradientBG 10s ease infinite;
+      overflow-x: hidden;
+      margin: 0;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: assets/pg.jpg;
+      animation: moveParticles 60s linear infinite;
+      opacity: 0.3;
+    }
+
+    @keyframes moveParticles {
+      0% { transform: translate(0,0); }
+      100% { transform: translate(-500px,-500px); }
+    }
+
+    .admin-container {
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 30px;
+      background: rgba(30, 30, 30, 0.6);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 1.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 30px;
+      font-weight: 600;
+      color: #00e676;
+      text-shadow: 0 4px 6px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.1);
+      font-family: 'Poppins', sans-serif;
+      letter-spacing: 1px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      transform: scale(1.05);
+      transition: all 0.3s ease-in-out;
+    }
+
+    h2 img {
+      width: 1.6em;
+      height: auto;
+      transition: transform 0.3s ease;
+      transform: scale(1.1);
+    }
+
+    @media (max-width: 768px) {
+      h2 { font-size: 24px; }
+      h2 img { width: 1.4em; }
+    }
+
+    .section {
+      margin-top: 30px;
+    }
+
+    .section h3 {
+      color: #00e676;
+      text-align: center;
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .message-box {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 15px;
+      text-align: center;
+      font-size: 16px;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .glass-button {
+      margin-top: 15px;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 25px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      backdrop-filter: blur(10px);
+      transition: 0.3s;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .glass-button:hover {
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+      transform: translateY(-3px);
+    }
+
+    .logout-btn {
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 12px 30px;
+      border-radius: 10px;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+    }
+
+    .logout-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .logout-btn img {
+      margin-left: 10px;
+    }
+
+    .logout-btn:focus {
+      outline: none;
+    }
+
+    .hidden { display: none; }
+
+    @media (max-width: 768px) {
+      .admin-container { padding: 20px; margin: 30px 10px; }
+      .section h3 { font-size: 18px; }
+      .glass-button { width: 100%; font-size: 14px; padding: 10px; }
+      h2 { font-size: 22px; }
+      h2 img { width: 1.4em; }
+    }
+
+    @media (max-width: 480px) {
+      h2 { font-size: 18px; }
+      input, select, button { font-size: 14px; padding: 10px; }
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 20px;
+      margin-top: 15px;
+      border: 2px solid transparent;
+      border-radius: 25px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 16px;
+      font-weight: 500;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    input:focus {
+      outline: none;
+      border: 2px solid #2b79c3;
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 0 12px rgba(43, 121, 195, 0.5);
+    }
+
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 25px;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      background: linear-gradient(135deg, #2b79c3, #2a4a73);
+      color: white;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease-in-out;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(135deg, #1f5a8b, #1a3a59);
+    }
+
+    button:active {
+      transform: translateY(1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    button:focus {
+      outline: none;
+      box-shadow: 0 0 10px #ff4081;
+    }
+
+    .note {
+      font-weight: bold;
+      font-style: italic;
+      color: #f0f0f0;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    hr {
+      border: none;
+      height: 2px;
+      background: linear-gradient(to right, transparent, #ffffff, transparent);
+      margin: 20px 0;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="admin-container" id="login-box">
+    <h2>ADMIN LOGIN <img src="assets/snowboarder.png" alt="" style="width:1.5em; vertical-align:middle;"></h2>
+    <p class="note">This section is only for authorized administrators.<br> Please ensure you have proper credentials! <img src="assets/sparkling_heart.png" alt="" style="width:1.5em; vertical-align:middle;"></p><hr>
+    <input type="password" id="adminKey" placeholder="Enter Admin Key ...">
+    <button onclick="loginAdmin()"><strong>Login </strong><img src="assets/key.png" alt="" style="width:1.5em; vertical-align:middle;"></button>
+    <button onclick="window.location.href='app.html'" class="glass-button" style="transform: translateX(5px);">
+  <strong>Go to Main App</strong><img src="assets/about.png" alt="" style="width:1.5em; vertical-align:middle;">
+</button>
+    <hr>
+    <p id="login-message" style="text-align: center;"></p>
+  </div>
+
+  <div class="admin-container hidden" id="admin-panel">
+    <button class="logout-btn" onclick="logoutAdmin()"><strong>LOG OUT </strong><img src="assets/closed_lock_with_key.png" alt="" style="width:1.5em; vertical-align:middle;"></button>
+    <h2>MANAGE CHATROOM <img src="assets/speech_balloon.png" alt="" style="width:1.5em; vertical-align:middle;"></h2>
+    <p class="note">We do not store, track, or monitor chat activity. If you have any suggestions or face any issues, please contact the developer. <img src="assets/sparkling_heart.png" alt="" style="width:1.5em; vertical-align:middle;"></p>
+    <div class="section">
+        <hr>
+        <div id="response-message" class="question-block hidden"></div>
+        <hr>
+
+      <h3>Clear Chatroom</h3>
+      <div class="message-box">GENERAL CHATBOX! <img src="assets/favicon4.png" alt="" style="width:1.5em; vertical-align:middle;"></div>
+      <button class="glass-button" onclick="clearChatRoom('General')"><strong>CLEAR GENERAL! </strong> <img src="assets/broom_1f9f9.png" alt="" style="width:2.0em; vertical-align:middle;"></button>
+    </div>
+
+    <div class="section">
+      <div class="message-box">GAMING CHATBOX! <img src="assets/video_game.png" alt="" style="width:1.5em; vertical-align:middle;"></div>
+      <button class="glass-button" onclick="clearChatRoom('gaming')"><strong>CLEAR GAMING! </strong> <img src="assets/broom_1f9f9.png" alt="" style="width:2.0em; vertical-align:middle;"></button>
+    </div>
+
+    <div class="section">
+      <div class="message-box">TRAVEL CHATBOX! <img src="assets/earth_americas.png" alt="" style="width:1.5em; vertical-align:middle;"></div>
+      <button class="glass-button" onclick="clearChatRoom('travel')"><strong>CLEAR TRAVEL! </strong> <img src="assets/broom_1f9f9.png" alt="" style="width:2.0em; vertical-align:middle;"></button>
+    </div>
+
+    <div class="section">
+      <div class="message-box">STUDY CHATBOX! <img src="assets/books.png" alt="" style="width:1.5em; vertical-align:middle;"></div>
+      <button class="glass-button" onclick="clearChatRoom('study')"><strong>CLEAR STUDY! </strong> <img src="assets/broom_1f9f9.png" alt="" style="width:2.0em; vertical-align:middle;"></button>
+    </div>
+
+    <div class="section">
+      <div class="message-box">CLEAR ALL CHATBOX AT ONCE! <img src="assets/shower.png" alt="" style="width:1.5em; vertical-align:middle;"></div>
+      <button class="glass-button" onclick="clearAllChatRooms()"><strong>CLEAR ALL!</strong> <img src="assets/shower.png" alt="" style="width:2.0em; vertical-align:middle;"></button>
+    </div>
+
+       <hr style="margin: 40px 0; border: 1px solid rgba(255,255,255,0.1)">
+  </div>
+
+  <script>
+    const backendURL = "YOUR BACKEND SERVER URL"; // Your backend URL
+
+    let adminKey = ""; // Store key after successful login
+
+    if (localStorage.getItem("chatroom_admin_logged_in") === "true") {
+      adminKey = localStorage.getItem("chatroom_admin_key") || "";
+      document.getElementById("login-box").classList.add("hidden");
+      document.getElementById("admin-panel").classList.remove("hidden");
+    }
+
+    async function loginAdmin() {
+      const inputKey = document.getElementById("adminKey").value.trim();
+      if (!inputKey) return;
+
+      try {
+        const res = await fetch(`${backendURL}/admin/verifyKey`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ adminKey: inputKey })
+        });
+
+        if (!res.ok) {
+          document.getElementById("login-message").innerHTML = `Wrong Password! <img src="assets/error.png" alt="emoji" style="width:2.5em; vertical-align:middle;">`;
+          return;
+        }
+
+        const data = await res.json();
+        if (!data.success) {
+          document.getElementById("login-message").innerHTML = `Wrong Password! <img src="assets/error.png" alt="emoji" style="width:2.5em; vertical-align:middle;">`;
+          return;
+        }
+
+        adminKey = inputKey;
+        localStorage.setItem("chatroom_admin_logged_in", "true");
+        localStorage.setItem("chatroom_admin_key", adminKey);
+        document.getElementById("login-box").classList.add("hidden");
+        document.getElementById("admin-panel").classList.remove("hidden");
+      } catch (error) {
+        document.getElementById("login-message").innerHTML = `Backend is turned off, contact developer! <img src="assets/ghost.png" alt="emoji" style="width:2.5em; vertical-align:middle;">`;
+      }
+    }
+
+    function logoutAdmin() {
+      localStorage.removeItem("chatroom_admin_logged_in");
+      localStorage.removeItem("chatroom_admin_key");
+      location.reload();
+    }
+
+    async function clearChatRoom(room) {
+      if (!confirm(`Are you sure you want to clear ${room} chatroom?`)) return;
+
+      try {
+        const res = await fetch(`${backendURL}/admin/clearChatrooms/${room}`, {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ adminKey })
+        });
+
+        const data = await res.json();
+        displayResponseMessage(data.message || data.error);
+      } catch {
+        displayResponseMessage("Backend is turned off, contact developer! 🧪");
+      }
+    }
+
+    async function clearAllChatRooms() {
+      if (!confirm("Are you sure you want to clear all chatrooms?")) return;
+
+      try {
+        const res = await fetch(`${backendURL}/admin/clearChatrooms`, {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ adminKey })
+        });
+
+        const data = await res.json();
+        displayResponseMessage(data.message || data.error);
+      } catch {
+        displayResponseMessage("Backend is turned off, contact developer! 🧪");
+      }
+    }
+
+    function displayResponseMessage(message) {
+      const responseMessageDiv = document.getElementById("response-message");
+      responseMessageDiv.textContent = message;
+      responseMessageDiv.classList.remove("hidden");
+      setTimeout(() => responseMessageDiv.classList.add("hidden"), 3000);
+    }
+  </script>
+
+</body>
+</html>

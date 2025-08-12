@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="assets/favicon2.png"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexaChat - Chat Room</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<style>
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    background: black url('assets/bg.jpg') no-repeat center center/cover;
+    height: 105vh;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-container {
+    flex: 1;
+    max-width: 700px; 
+    margin: 60px auto 20px auto; 
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 20px;
+
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+
+
+/* Chat Header */
+.chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+.chat-header h2 {
+    margin: 0;
+}
+
+/* Leave Button */
+#leaveChat {
+    background: rgba(255, 0, 0, 0.56);
+    border: none;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+#leaveChat:hover {
+    background: rgba(255, 0, 0, 0.871);
+}
+
+/* Messages */
+.messages {
+    height: 450px; /* or whatever height you like */
+    overflow-y: auto;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.messages::-webkit-scrollbar {
+    width: 8px;
+}
+.messages::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+/* Message */
+.message {
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+}
+
+/* Input Area */
+.message-input {
+    display: flex;
+    gap: 10px;
+}
+.message-input input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    background: rgba(255,255,255,0.15);
+    color: white;
+}
+.message-input input::placeholder {
+    color: rgba(255,255,255,0.6);
+}
+.message-input button {
+    padding: 10px 16px;
+    background: rgba(0, 150, 255, 0.3);
+    border: none;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.message-input button:hover {
+    background: rgba(0, 150, 255, 0.5);
+}
+
+
+
+/* ONLINE USERS */
+.online-users-box {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 10px;
+    margin-bottom: 10px;
+    color: white;
+    font-size: 14px;
+}
+
+.online-users-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 5px 0 0;
+}
+
+.online-users-box li {
+    padding: 2px 0;
+}
+
+#messageBox {
+    flex: 1;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 25px; /* ✅ cute curve */
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    font-size: 16px;
+    outline: none;
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+/* Hover focus effect */
+#messageBox:focus {
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+#sendBtn {
+    padding: 12px 22px;
+    margin-left: 8px;
+    border: none;
+    border-radius: 999px; /* super round */
+    background: linear-gradient(145deg, rgba(255, 182, 193, 0.3), rgba(173, 216, 230, 0.3));
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+    transition: all 0.25s ease;
+}
+
+/* Hover effect */
+#sendBtn:hover {
+    background: linear-gradient(145deg, rgba(255, 182, 193, 0.4), rgba(173, 216, 230, 0.4));
+    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px) scale(1.05);
+}
+
+/* Click effect */
+#sendBtn:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.15);
+}
+
+/* Divider */
+hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(to right, transparent, #ffffff, transparent);
+  margin: 20px 0;
+}
+</style>
+<body>
+
+
+<!-- Main Chat -->
+<main class="chat-container">
+    <div class="chat-header">
+        <h2 id="roomName"></h2>
+        <div id="online-users" class="online-users-box">
+            <strong>Online: </strong> <span id="online-count">0</span>
+            <ul id="online-list"></ul>
+             <!-- Typing indicator goes here -->
+    <div id="typing-indicator" style="display:none; color:rgb(0, 0, 0); font-style:italic; margin:5px 10px;"></div>
+        </div>
+        <button id="leaveChat">Leave</button>
+    </div>
+
+    <div id="messages" class="messages"></div>
+
+   
+    <hr>
+    <div class="message-input">
+        <input type="text" id="messageBox" placeholder="Type your message...">
+        <button id="sendBtn">Send</button>
+    </div>
+</main>
+
+
+<script>const BACKEND_URL = "YOUR BACKEND SERVER URL";
+
+// Check login
+const username = localStorage.getItem("username");
+if (!username) {
+    window.location.href = "app.html";
+}
+
+// Get room
+const params = new URLSearchParams(window.location.search);
+const room = params.get("room");
+if (!room) {
+    window.location.href = "app.html";
+}
+
+const roomDisplayNames = {
+    "General": `<strong> General Chat </strong><img src="assets/main.png" style="width:1.2em; vertical-align:middle;">`,
+    "gaming": `<strong> Gaming Lounge </strong><img src="assets/video_game.png" style="width:1.2em; vertical-align:middle;">`,
+    "study": `<strong>Study Room </strong><img src="assets/books.png" style="width:1.2em; vertical-align:middle;">`,
+    "travel": `<strong> Travel Buddies </strong><img src="assets/earth_americas.png" style="width:1.2em; vertical-align:middle;">`
+};
+
+// Set the display name
+document.getElementById("roomName").innerHTML =
+    roomDisplayNames[room] || (room.charAt(0).toUpperCase() + room.slice(1));
+
+// WebSocket
+const ws = new WebSocket(`wss://${BACKEND_URL.replace(/^https?:\/\//, '')}`);
+
+let typingUsers = new Set();
+let typingTimeout;
+
+ws.onopen = () => {
+    ws.send(JSON.stringify({
+        type: "join",
+        room: room,
+        user: username
+    }));
+};
+
+ws.onmessage = (event) => {
+    const msg = JSON.parse(event.data);
+
+    if (msg.type === "history") {
+        document.getElementById("messages").innerHTML = "";
+        msg.data.forEach(m => {
+            addMessage(m.user, m.message, m.time);
+        });
+    }
+
+    if (msg.type === "message") {
+        addMessage(msg.data.user, msg.data.message, msg.data.time);
+    }
+
+    if (msg.type === "users") {
+        const onlineCount = document.getElementById("online-count");
+        onlineCount.textContent = msg.data.length || 0;
+    }
+
+    if (msg.type === "typing") {
+        typingUsers.add(msg.user);
+        updateTypingIndicator();
+    }
+
+    if (msg.type === "stop_typing") {
+        typingUsers.delete(msg.user);
+        updateTypingIndicator();
+    }
+};
+
+// Show server error message
+function showServerError() {
+    const messagesDiv = document.getElementById("messages");
+    if (document.getElementById("server-error")) return; 
+    const errorDiv = document.createElement("div");
+    errorDiv.id = "server-error";
+    errorDiv.style.color = "white";
+    errorDiv.style.fontWeight = "bold";
+    errorDiv.style.textAlign = "center";
+    errorDiv.style.margin = "10px";
+    errorDiv.textContent = "Server is turned off. Please contact the developer! 🧪";
+    messagesDiv.appendChild(errorDiv);
+    errorDiv.scrollIntoView();
+}
+
+// Handle WebSocket errors and closure
+ws.onerror = () => {
+    showServerError();
+};
+
+ws.onclose = () => {
+    showServerError();
+};
+
+// Send message
+document.getElementById("sendBtn").addEventListener("click", sendMessage);
+document.getElementById("messageBox").addEventListener("keypress", (e) => {
+    if (e.key === "Enter") sendMessage();
+});
+
+// Typing detection
+document.getElementById("messageBox").addEventListener("input", () => {
+    ws.send(JSON.stringify({ type: "typing", room, user: username }));
+    clearTimeout(typingTimeout);
+    typingTimeout = setTimeout(() => {
+        ws.send(JSON.stringify({ type: "stop_typing", room, user: username }));
+    }, 1500);
+});
+
+function sendMessage() {
+    const message = document.getElementById("messageBox").value.trim();
+    if (!message) return;
+    fetch(`${BACKEND_URL}/chat/${room}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user: username, message })
+    }).catch(() => {
+        showServerError();
+    });
+    document.getElementById("messageBox").value = "";
+    ws.send(JSON.stringify({ type: "stop_typing", room, user: username }));
+}
+
+// Add message to chat
+function addMessage(user, message) {
+    const div = document.createElement("div");
+    div.classList.add("message");
+    div.innerHTML = `<strong>${user}:</strong> ${message}`;
+    document.getElementById("messages").appendChild(div);
+    div.scrollIntoView();
+}
+
+// Typing indicator UI
+function updateTypingIndicator() {
+    const indicator = document.getElementById("typing-indicator");
+    if (typingUsers.size > 0) {
+        indicator.innerHTML = `<img src="assets/favicon2.png" style="width:1.2em; vertical-align:middle;"> ` 
+            + Array.from(typingUsers).join(", ") 
+            + ` is typing<span class='dots'><span>.</span><span>.</span><span>.</span></span>`;
+
+        indicator.style.display = "block";
+    } else {
+        indicator.style.display = "none";
+    }
+}
+
+// Leave chat
+document.getElementById("leaveChat").addEventListener("click", () => {
+    window.location.href = "app.html";
+});
+
+// Mobile menu toggle
+document.getElementById("hamburger").addEventListener("click", () => {
+    document.getElementById("mobileMenu").classList.toggle("active");
+});
+
+// Hamburger toggle helper function 
+function safeOn(element, event, handler) {
+    if (!element) return;
+    element.addEventListener(event, handler);
+}
+const hamburger = document.getElementById("hamburger");
+const mobileMenu = document.getElementById("mobileMenu");
+
+safeOn(hamburger, 'click', () => {
+    if (!mobileMenu) return;
+    mobileMenu.style.display = (mobileMenu.style.display === 'flex') ? 'none' : 'flex';
+});
+</script>
+
+<style>
+/* Typing dots animation */
+.dots span {
+    animation: blink 1.5s infinite;
+    opacity: 0;
+}
+.dots span:nth-child(1) { animation-delay: 0s; }
+.dots span:nth-child(2) { animation-delay: 0.3s; }
+.dots span:nth-child(3) { animation-delay: 0.6s; }
+
+@keyframes blink {
+    0%, 20% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+</style>
+</body>
+</html>

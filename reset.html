@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" href="assets/favicon5.png"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reset Link Sent | NexaChat 📌</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: url('./assets/bg.jpg') no-repeat center center/cover;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      overflow: hidden;
+      padding: 15px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      border-radius: 20px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+      animation: fadeInUp 1s ease-in-out;
+    }
+
+    .reset-left {
+      flex: 1;
+      padding: 35px 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 18px;
+    }
+
+    .reset-left h2 {
+      font-size: 26px;
+      margin-bottom: 10px;
+      animation: slideRight 0.6s ease;
+      word-break: break-word;
+    }
+
+    .reset-left p {
+      font-size: 15px;
+      color: #ccc;
+      line-height: 1.6;
+      word-break: break-word;
+    }
+
+    .reset-left .back-link {
+      margin-top: 20px;
+      font-size: 15px;
+      color: white;
+      background: #00c853; /* Solid green background */
+      padding: 10px 18px;
+      border-radius: 8px;
+      display: inline-block;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 200, 83, 0.4);
+      font-weight: 500;
+      width: fit-content;
+    }
+
+    .reset-left .back-link:hover {
+      background: #00e676; /* Lighter green on hover */
+      color: white;
+      box-shadow: 0 6px 20px rgba(0, 230, 118, 0.5);
+      transform: translateY(-2px);
+      text-decoration: none;
+    }
+
+    .reset-right {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 35px 25px;
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+      animation: fadeIn 1s ease;
+    }
+
+    .reset-right img {
+      width: 220px;
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 15px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .reset-right h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+      word-break: break-word;
+    }
+
+    .reset-right p {
+      font-size: 14px;
+      color: #ccc;
+      word-break: break-word;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        overflow: auto;
+      }
+      .container {
+        flex-direction: column;
+        max-width: 100%;
+        height: auto;
+      }
+      .reset-left, .reset-right {
+        padding: 20px 15px;
+        flex: none;
+        width: 100%;
+        border-left: none !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .reset-left {
+        border-top: none !important;
+      }
+      .reset-right {
+        margin-top: 15px;
+      }
+      .reset-left h2 {
+        font-size: 22px;
+      }
+      .reset-left p {
+        font-size: 13px;
+      }
+      .reset-right h1 {
+        font-size: 24px;
+      }
+      .reset-right p {
+        font-size: 12px;
+      }
+      .reset-left .back-link {
+        font-size: 14px;
+        padding: 9px 15px;
+      }
+      .reset-right img {
+        width: 160px;
+        margin-bottom: 12px;
+      }
+    }
+
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideRight {
+      0% {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="reset-left">
+      <h2> <img src="assets/favicon4.png" alt="" style="width:1.5em; vertical-align:middle;">  Reset Link Sent</h2>
+     <p><i><strong>We've emailed you a link to reset your password.</strong></i></p>
+     <p>
+      <img src="assets/sweat_smile.png" alt="" style="width:1.5em; vertical-align:middle;"> Didn’t receive it? Double-check that you <strong>entered your registered Gmail address.
+     </p></strong>
+
+
+      <a href="index.html" class="back-link">← Back to Login</a>
+    </div>
+
+    <div class="reset-right">
+      <img src="./assets/link.png" alt="Reset Illustration" />
+      <h1>NexaChat  <img src="assets/main.png" alt="" style="width:1.5em; vertical-align:middle;"></h1>
+      <p>You're almost there. Reset your password and come back stronger.</p>
+    </div>
+  </div>
+
+</body>
+</html>

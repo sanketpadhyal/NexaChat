@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" href="assets/favicon4.png"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Email Verification | NexaChat 📌</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: url('./assets/bg.jpg') no-repeat center center/cover;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      overflow: hidden;
+      padding: 15px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 700px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(18px);
+      border-radius: 20px;
+      padding: 40px 30px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+      text-align: center;
+      animation: fadeIn 1s ease;
+    }
+
+    .container h1 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      animation: slideDown 0.7s ease;
+      word-break: break-word;
+    }
+
+    .container p {
+      font-size: 16px;
+      color: #ccc;
+      margin-bottom: 30px;
+      line-height: 1.5;
+      word-break: break-word;
+    }
+
+    .container .illustration {
+      width: 180px;
+      max-width: 100%;
+      margin-bottom: 20px;
+      animation: float 3s ease-in-out infinite;
+      height: auto;
+    }
+
+    .btn {
+      padding: 12px 25px;
+      background: linear-gradient(135deg, #ff0080, #7928ca);
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255, 0, 128, 0.4);
+      font-weight: 600;
+      user-select: none;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(255, 0, 128, 0.6);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideDown {
+      from {
+        transform: translateY(-20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 25px 15px;
+      }
+
+      .container h1 {
+        font-size: 26px;
+      }
+
+      .container p {
+        font-size: 14px;
+      }
+
+      .container .illustration {
+        width: 140px;
+        margin-bottom: 15px;
+      }
+
+      .btn {
+        font-size: 14px;
+        padding: 10px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <img src="./assets/mail.png" alt="Verify Email" class="illustration" />
+    <h1><img src="assets/favicon4.png" alt="" style="width:1.5em; vertical-align:middle;"> Verify Your Email</h1>
+    <p>We've sent a verification link to your Gmail address.<br>
+      Please <strong>check your inbox and spam folder in the Gmail app.</strong></p>
+    <a href="index.html" class="btn">← Back to Login</a>
+  </div>
+
+</body>
+</html>

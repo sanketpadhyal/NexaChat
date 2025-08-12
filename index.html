@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" href="assets/favicon.png"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NexaChat | Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: url('./assets/bg.jpg') no-repeat center center/cover;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      overflow: hidden;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      border-radius: 20px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+      animation: fadeInUp 1s ease-in-out;
+      transition: transform 0.3s ease;
+      z-index: 1;
+    }
+
+    .container:hover {
+      transform: scale(1.01);
+    }
+
+    .login-left {
+      flex: 1;
+      padding: 40px 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .login-left h2 {
+      font-size: 28px;
+      animation: slideRight 0.6s ease;
+      word-break: break-word;
+    }
+
+    .login-left input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      font-size: 16px;
+      background-color: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      transition: background 0.3s;
+    }
+
+    .login-left input:focus {
+      background-color: rgba(255, 255, 255, 0.25);
+    }
+    .login-left input::placeholder {
+      color: #ccc;
+    }
+
+    .login-left button {
+      padding: 12px;
+      background: linear-gradient(135deg, #ff0080, #7928ca);
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .login-left button:hover {
+      transform: scale(1.03);
+      box-shadow: 0 5px 20px rgba(255, 0, 128, 0.4);
+    }
+
+    .options {
+      text-align: right;
+      font-size: 14px;
+    }
+    .options a {
+      color: #ff70d0;
+      text-decoration: none;
+      transition: color 0.3s;
+      word-break: break-word;
+    }
+    .options a:hover {
+      color: #fff;
+      text-decoration: underline;
+    }
+
+    .login-right {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px 30px;
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+      animation: fadeIn 1s ease;
+    }
+
+    .login-right h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+      word-break: break-word;
+    }
+    .login-right p {
+      font-size: 14px;
+      color: #ccc;
+      word-break: break-word;
+    }
+    .login-right .illustration {
+      width: 250px;
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 20px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .login-right a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      background: linear-gradient(135deg, #ff70d0, #b380f0);
+      color: #fff;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      word-break: break-word;
+    }
+    .login-right a:hover {
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 768px) {
+      body {
+        overflow: auto;
+      }
+      .container {
+        flex-direction: column;
+        max-width: 100%;
+        height: auto;
+      }
+      .login-left, .login-right {
+        padding: 30px 20px;
+        flex: none;
+        width: 100%;
+        border-left: none !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .login-left {
+        border-top: none !important;
+      }
+      .login-right {
+        margin-top: 20px;
+      }
+      .login-left h2 {
+        font-size: 24px;
+      }
+      .login-right h1 {
+        font-size: 28px;
+      }
+      .login-left input, .login-left button {
+        font-size: 14px;
+        padding: 10px;
+      }
+      .login-left button {
+        padding: 12px 0;
+      }
+      .login-right a {
+        padding: 10px 16px;
+        font-size: 14px;
+      }
+      .login-right .illustration {
+        width: 150px;
+        margin-bottom: 15px;
+      }
+    }
+
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes slideRight {
+      0% {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    .error-box {
+      display: none;
+      background: rgba(255, 77, 77, 0.08);
+      border-left: 4px solid #ff4d4d;
+      color: #ffd6d6;
+      padding: 10px 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      margin-bottom: 6px;
+      word-break: break-word;
+    }
+
+    /* Loader Overlay */
+    #loaderOverlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    #loaderOverlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .spinner {
+      width: 70px;
+      height: 70px;
+      border: 6px solid rgba(255,255,255,0.2);
+      border-top: 6px solid #ff0080;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="login-left">
+      <h2>
+  Login to NexaChat 
+  <img src="assets/main.png" alt="" style="width:1.5em; vertical-align:middle;">
+  <br>
+  <span style="font-size: 12px; font-style: italic; color: #f0f0f0;">
+    ↬ Made with passion by 
+    <a href="https://github.com/SanketPadhyal" style="color: #00e676; text-decoration: none; font-weight: bold;">Sanket Padhyal</a>
+  </span>
+</h2>
+
+<style>
+  h2 {
+    font-size: 28px;
+    text-align: center;
+    color: #fff;
+  }
+
+  @media (max-width: 768px) {
+    h2 {
+      font-size: 24px;
+    }
+  }
+</style>
+
+      
+      <div id="errorBox" class="error-box"></div>
+
+      <input type="email" placeholder="Email" id="email" autocomplete="username" />
+      <input type="password" placeholder="Password" id="password" autocomplete="current-password" />
+      <div class="options">
+        <a href="forgot.html">Forgot Password?</a>
+      </div>
+      <button id="loginBtn">Login</button>
+
+<script>
+  document.getElementById("emailChangeBtn").addEventListener("click", () => {
+    window.location.href = "email-change.html";
+  });
+</script>
+
+    </div>
+
+    <div class="login-right">
+      <img src="./assets/welcome.webp" alt="Welcome Illustration" class="illustration" />
+      <h1>Welcome <img src="assets/hugging_face.png" alt="" style="width:1.5em; vertical-align:middle;"></h1>
+      <p>Don’t have an account?</p>
+      <a href="signup.html" class="signup-btn">Sign up now</a>
+    </div>
+
+
+
+<style>
+  @media (max-width: 768px) {
+    note {
+      font-size: 10px; 
+      padding: 5px 0; 
+    }
+    note a {
+      font-size: 12px; 
+    }
+    note img {
+      width: 1em; 
+    }
+  }
+</style>
+
+  </div>
+
+  <!-- Loader Overlay -->
+  <div id="loaderOverlay">
+    <div class="spinner"></div>
+  </div>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "YOUR _FIREBASE_API",
+      authDomain: "NexaChat 🧪-64e93.firebaseapp.com",
+      projectId: "NexaChat 🧪-64e93",
+      storageBucket: "NexaChat 🧪-64e93.appspot.com",
+      messagingSenderId: "",
+      appId: "",
+      measurementId: "",
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    const loginBtn = document.getElementById("loginBtn");
+    const errorBox = document.getElementById("errorBox");
+    const loaderOverlay = document.getElementById("loaderOverlay");
+
+    function showError(msg) {
+      errorBox.textContent = msg;
+      errorBox.style.display = "block";
+    }
+
+    function hideError() {
+      errorBox.style.display = "none";
+    }
+
+    loginBtn.addEventListener("click", async () => {
+      hideError();
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (!email || !password) {
+        showError("❗ Please enter both email and password.");
+        return;
+      }
+
+      // Show loader instantly
+      loaderOverlay.classList.add("active");
+
+      try {
+        const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+
+        if (!user.emailVerified) {
+          await firebase.auth().signOut();
+          loaderOverlay.classList.remove("active"); 
+          showError("📧 Please verify your email before logging in.");
+          return;
+        }
+
+        // Redirect immediately after successful login
+        window.location.href = "app.html";
+      } catch (error) {
+        loaderOverlay.classList.remove("active"); 
+        const code = error.code || "";
+        if (
+          code === "auth/wrong-password" ||
+          code === "auth/invalid-credential" ||
+          code === "auth/invalid-auth-input"
+        ) {
+          showError("❌ Incorrect password. Please try again.");
+        } else if (code === "auth/user-not-found") {
+          showError("❌ No account found with this email.");
+        } else if (code === "auth/invalid-email") {
+          showError("❌ Invalid email address.");
+        } else if (code === "auth/user-disabled") {
+          showError("❌ This account has been disabled. Contact support.");
+        } else if (code === "auth/too-many-requests") {
+          showError("❌ Too many attempts. Please try again later.");
+        } else {
+          showError("❌ Login failed. Please check your credentials and try again.");
+          console.error("Unhandled auth error:", error);
+        }
+      }
+    });
+  </script>
+</body>
+</html>

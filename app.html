@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" type="image/png" href="assets/main.png"/>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NexaChat | Dashboard </title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    background: black url('assets/bg.jpg') no-repeat center center/cover;
+    height: 110vh;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Navigation */
+.top-nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.logo {
+    font-size: 1.6rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: popIn 0.6s ease;
+}
+.logo span { font-size: 1.8rem; }
+
+.nav-buttons {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+.nav-buttons a {
+    text-decoration: none;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    background: rgba(255,255,255,0.08);
+}
+.nav-buttons a:hover {
+    background: yellow;
+    color: black;
+    transform: scale(1.05);
+}
+
+/* Hamburger Menu*/
+.hamburger {
+    display: none;
+    font-size: 28px;
+    cursor: pointer;
+    user-select: none;
+    color: white;
+}
+
+/* Mobile dropdown menu */
+.mobile-menu {
+    display: none;
+    background: rgba(0,0,0,0.85);
+    position: fixed;
+    top: 60px; 
+    right: 20px;
+    border-radius: 8px;
+    padding: 10px 15px;
+    flex-direction: column;
+    gap: 10px;
+    width: 160px;
+    z-index: 1100;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+.mobile-menu a {
+    display: block;
+    color: white;
+    padding: 8px 0;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    font-weight: 500;
+}
+.mobile-menu a:last-child {
+    border-bottom: none;
+}
+.mobile-menu a:hover {
+    background: yellow;
+    color: black;
+}
+
+/* Main Content */
+.content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    margin-top: 80px;
+    padding: 0;              
+    width: 100%;
+}
+
+.glass-box {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 40px;
+    padding: 50px 40px;       
+    max-width: 500px;       
+    width: 100%;     
+    backdrop-filter: blur(20px);
+    border: 3px solid rgba(255, 255, 255, 0.25);
+    animation: fadeIn 0.8s ease-in-out;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+
+.title {
+    font-size: 2.5rem;
+    font-weight: 300;
+    line-height: 1.2;
+}
+.title span { 
+    color: yellow; 
+    font-weight: 600; 
+}
+
+.description {
+    margin-top: 15px;
+    font-size: 20px;      
+    line-height: 1.6;    
+    font-weight: 400;     
+}
+
+
+.get-started {
+    margin-top: 30px;
+    display: inline-block;
+    background: yellow;
+    color: black;
+    padding: 14px 28px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+.get-started:hover { 
+    background: white; 
+}
+
+
+/* Chat Slide Panel */
+.slide-panel {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -350px;
+    width: 320px;
+    height: 55%;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(25px);
+    border-radius: 35px;
+    border: 2px solid rgba(255,255,255,0.2);
+    padding: 20px 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: right 0.5s ease;
+    z-index: 2000;
+    box-shadow: 0 0 30px rgba(0,0,0,0.4);
+}
+
+.slide-panel h2 {
+    font-size: 1.4rem;
+    text-align: center;
+}
+
+.slide-panel.open {
+    right: 20px;
+}
+
+.chat-option {
+    padding: 12px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+}
+.chat-option:hover {
+    background: rgba(145, 255, 0, 0.848);
+    color: black;
+    transform: scale(1.05);
+}
+
+/* Profile Slide Panel (from top) */
+.profile-panel {
+    position: fixed;
+    top: -300px;
+    left: auto;
+    right: 20px; 
+    width: 300px;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    border: 2px solid rgba(255,255,255,0.2);
+    padding: 20px;
+    text-align: center;
+    transition: top 0.5s ease;
+    z-index: 2100;
+    box-shadow: 0 0 25px rgba(0,0,0,0.3);
+}
+
+.profile-panel.open {
+    top: 100px; 
+}
+
+.profile-panel h3 {
+    margin-bottom: 5px;
+    margin-top: 0;       
+    position: relative;
+    top: -10px;          
+}
+
+.profile-panel p {
+    margin-top: 0;        
+    position: relative;
+    top: -10px;           
+}
+
+.logout-btn {
+  margin-top: 15px;
+  padding: 6px 14px;
+  background: rgba(255, 2, 2, 0.8);
+  border: none;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  box-shadow: 0 4px 12px rgba(255, 2, 2, 0.6);
+  transition: background 0.3s ease, transform 0.3s ease;
+  user-select: none;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.logout-btn:hover {
+  background: rgba(255, 2, 2, 1);
+  box-shadow: 0 6px 20px rgba(255, 2, 2, 0.9);
+  transform: scale(1.1);
+}
+
+
+.close-btn {
+    align-self: flex-end;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 5px;
+    position: relative;
+    left: 90px; 
+    animation: rotateBackForth 3s ease-in-out infinite;
+}
+
+@keyframes rotateBackForth {
+    0%, 100% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(15deg);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes popIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+@media (max-width: 768px) {
+    .nav-buttons { display: none; } 
+    .hamburger { display: block; }
+    
+    .content { padding: 20px; justify-content: center; }
+    .glass-box { max-width: 100%; padding: 25px; }
+
+    /* Adjust title font size for smaller screens */
+    .title {
+        font-size: 1.8rem;
+    }
+
+    /* Adjust button size for easier tapping */
+    .get-started {
+        padding: 12px 20px;
+        font-size: 16px;
+    }
+
+    /* Slide panel width smaller on mobile */
+    .slide-panel {
+        width: 90vw;
+        max-width: 320px;
+        height: 50vh;
+        right: -100vw;
+        border-radius: 20px;
+        padding: 15px 20px;
+    }
+    .slide-panel.open {
+        right: 5vw;
+    }
+
+    /* Profile panel */
+    .profile-panel {
+        width: 90vw;
+        max-width: 300px;
+        top: -350px;
+        border-radius: 20px;
+        padding: 15px 20px;
+    }
+    .profile-panel.open {
+        top: 80px;
+        right: 5vw;
+    }
+}
+
+/* Slide Panel Close Button*/
+#closePanel {
+    align-self: flex-end;
+    cursor: pointer;
+    font-size: 20px;
+    color: white;
+    padding: 5px;
+    background: transparent;
+    border-radius: 0;
+    width: auto;
+    height: auto;
+    box-shadow: none;
+    transition: color 0.3s ease;
+    position: relative;
+    left: 0;
+    top: 0;
+}
+
+#closePanel:hover {
+    color: yellow;
+    transform: none;
+}
+
+.change-name-btn {
+  background: #bcfb00ab;
+  border: 2px solid #60fa00aa;
+  padding: 6px 14px;
+  border-radius: 20px;
+  color: #fff;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(255, 111, 163, 0.6);
+  transition: all 0.3s ease;
+  letter-spacing: 0.05em;
+  user-select: none;
+  text-transform: uppercase;
+}
+
+.change-name-btn:hover {
+  background: #c0ff01f4;
+  border-color: #8ef400f9;
+  box-shadow: 0 5px 14px rgba(255, 74, 110, 0.9);
+  transform: scale(1.05);
+}
+
+
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<div class="top-nav">
+    <div class="logo"><strong>NexaChat </strong><img src="assets/main.png" alt="" style="width:1.5em; vertical-align:middle;"></div>
+    <div class="nav-buttons">
+        <a href="about.html">About <img src="assets/about.png" alt="" style="width:1.5em; vertical-align:middle;"></a>
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=sanketpadhyal3@gmail.com&su=NexaChat%20related%20issue" target="_blank" rel="noopener noreferrer">
+  Support <img src="assets/support.png" alt="support" style="width:1.5em; vertical-align:middle;">
+</a>
+        <a href="#" id="profileBtn">Profile <img src="assets/profile.png" alt="" style="width:1.5em; vertical-align:middle;"></a>
+    </div>
+    <div class="hamburger" id="hamburger">☰</div>
+</div>
+
+<!-- Mobile dropdown menu -->
+<div class="mobile-menu" id="mobileMenu">
+        <a href="about.html">About <img src="assets/about.png" alt="" style="width:1.5em; vertical-align:middle;"></a>
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=sanketpadhyal3@gmail.com&su=NexaChat%20related%20issue" target="_blank" rel="noopener noreferrer">
+  Support <img src="assets/support.png" alt="support" style="width:1.5em; vertical-align:middle;">
+</a>
+        <a href="#" id="profileBtnMobile">Profile <img src="assets/profile.png" alt="" style="width:1.5em; vertical-align:middle;"></a>
+</div>
+
+<!-- Main Content -->
+<div class="content">
+    <div class="glass-box">
+        <h1 class="title"><strong>Welcome to our </strong><span><br><strong>NexaChat </strong><img src="assets/main.png" alt="" style="width:1.5em; vertical-align:middle;"></span></h1>
+        <p class="description">
+           <i>↬ <strong>A fast, anonymous, and secure chat platform.</strong><br>
+           ↬ <strong><em style="background-color: #ec02028b; padding: 0 4px; border-radius: 3px;">No storage, no traces — just instant conversation.</em></strong><br>
+           ↬ <strong>Admin Panel in About section: password-protected for authorized users only.</strong></i>
+        </p>
+        <a href="#" class="get-started" id="getStarted">Get Started</a>
+    </div>
+</div>
+
+<!-- Chat Slide Panel -->
+<div class="slide-panel" id="slidePanel">
+    <div class="close-btn" id="closePanel">
+        <img src="assets/x.png" alt="" style="width:1.5em; vertical-align:middle;">
+    </div>
+    <h2>
+        <strong>CHAT'S</strong>
+        <img src="assets/genie.png" alt="" style="width:1.5em; vertical-align:middle;">
+    </h2>
+    <div class="chat-option" data-room="General">
+        <strong><i>General Chat</i></strong>
+        <img src="assets/favicon4.png" alt="" style="width:1.5em; vertical-align:middle;">
+    </div>
+    <div class="chat-option" data-room="gaming">
+        <strong><i>Gaming Lounge</i></strong>
+        <img src="assets/video_game.png" alt="" style="width:1.5em; vertical-align:middle;">
+    </div>
+    <div class="chat-option" data-room="study">
+        <strong><i>Study Room</i></strong>
+        <img src="assets/books.png" alt="" style="width:1.5em; vertical-align:middle;">
+    </div>
+    <div class="chat-option" data-room="travel">
+        <strong><i>Travel Buddies</i></strong>
+        <img src="assets/earth_americas.png" alt="" style="width:1.5em; vertical-align:middle;">
+    </div>
+</div>
+
+<script>
+const BACKEND_URL = "YOUR BACKEND SERVER URL";
+
+// When a room is clicked, store username + go to chat.html
+document.querySelectorAll('.chat-option').forEach(option => {
+    option.style.cursor = 'pointer';
+    option.addEventListener('click', () => {
+        const room = option.getAttribute('data-room');
+        
+        // Store logged-in user's name from Firebase
+        const user = firebase.auth().currentUser;
+        if (user) {
+            localStorage.setItem("username", user.displayName || user.email.split('@')[0]);
+        }
+        
+        // Redirect to chat.html with room param
+        window.location.href = `chat.html?room=${encodeURIComponent(room)}`;
+    });
+});
+
+// close panel
+document.getElementById("closePanel").addEventListener("click", () => {
+    document.getElementById("slidePanel").style.display = "none";
+});
+</script>
+
+
+<!-- Profile Slide Panel -->
+<div class="profile-panel" id="profilePanel">
+    <div class="close-btn" id="closeProfile"><img src="assets/x.png" alt="" style="width:1.5em; vertical-align:middle;"></div>
+    <h3 id="userName"><strong>User Name </strong></h3>
+    <p id="userEmail">user@example.com</p>
+    <button class="change-name-btn" id="changeNameBtn">Change Name</button>
+    <button class="logout-btn" id="logoutBtn">Log Out</button>
+</div>
+
+<!-- Firebase & Script -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+<script>
+/* CONFIG */
+const firebaseConfig = {
+  apiKey: "YOUR _FIREBASE_API",
+  authDomain: "AUTH DOMAIN",
+  projectId: "PROJECT ID",
+  storageBucket: "PROJECT ID.appspot.com",
+  messagingSenderId: "",
+  appId: "",
+  measurementId: "",
+};
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  // small helper
+  const $ = id => document.getElementById(id);
+
+  // Grab elements
+  const getStartedBtn = $('getStarted');
+  const slidePanel = $('slidePanel');
+  const closePanel = $('closePanel');
+
+  const profileBtn = $('profileBtn');
+  const profileBtnMobile = $('profileBtnMobile');
+  const profilePanel = $('profilePanel');
+  const closeProfile = $('closeProfile');
+  const userName = $('userName');
+  const userEmail = $('userEmail');
+  const logoutBtn = $('logoutBtn');
+
+  const hamburger = $('hamburger');
+  const mobileMenu = $('mobileMenu');
+  const changeNameBtn = $('changeNameBtn');
+
+  // Safe event attach helper
+  const safeOn = (el, ev, fn) => { if (el) el.addEventListener(ev, fn); };
+
+  // Hamburger toggle
+  safeOn(hamburger, 'click', () => {
+    if (!mobileMenu) return;
+    mobileMenu.style.display = (mobileMenu.style.display === 'flex') ? 'none' : 'flex';
+  });
+
+  // Slide panel open close
+  safeOn(getStartedBtn, 'click', (e) => {
+    e.preventDefault();
+    if (slidePanel) slidePanel.classList.add('open');
+  });
+  safeOn(closePanel, 'click', () => { if (slidePanel) slidePanel.classList.remove('open'); });
+
+  // Profile panel
+  safeOn(profileBtn, 'click', (e) => {
+    e && e.preventDefault();
+    if (!profilePanel) return;
+    profilePanel.classList.toggle('open');
+  });
+  safeOn(profileBtnMobile, 'click', (e) => {
+    e && e.preventDefault();
+    if (mobileMenu) mobileMenu.style.display = 'none';
+    if (!profilePanel) return;
+    profilePanel.classList.toggle('open');
+  });
+  safeOn(closeProfile, 'click', () => { if (profilePanel) profilePanel.classList.remove('open'); });
+
+  // Change name
+  safeOn(changeNameBtn, 'click', async () => {
+    const newName = prompt("Enter your new display name:");
+    if (!newName || !newName.trim()) return;
+    const user = firebase.auth().currentUser;
+    if (!user) return alert("No user signed in.");
+    try {
+      await user.updateProfile({ displayName: newName.trim() });
+      if (userName) userName.textContent = newName.trim();
+      alert("Display name updated!");
+    } catch (err) {
+      console.error("updateProfile error:", err);
+      alert("Failed to update name: " + err.message);
+    }
+  });
+
+  // Logout
+safeOn(logoutBtn, 'click', async () => {
+  try {
+    // Firebase sign out
+    await firebase.auth().signOut();
+
+    // Clear session data from localStorage 
+    localStorage.removeItem("username");
+
+    // Reset UI 
+    if (userName) userName.textContent = 'User Name';
+    if (userEmail) userEmail.textContent = 'user@example.com';
+    if (profilePanel) profilePanel.classList.remove('open');
+
+    // Redirect to the homepage (index.html)
+    window.location.href = 'index.html';
+  } catch (err) {
+    console.error('Signout error:', err);
+    alert('Error logging out');
+  }
+});
+
+  const requiresAuth = !!$('requiresAuth'); 
+
+  firebase.auth().onAuthStateChanged(user => {
+    if (!user && requiresAuth) {
+      // If the page requires auth but there's no user send to login
+      window.location.href = 'index.html';
+      return;
+    }
+    // If user exists, populate UI where elements are available
+    if (user) {
+      if (userName) userName.textContent = user.displayName || 'User Name';
+      if (userEmail) userEmail.textContent = user.email || 'user@example.com';
+    }
+  });
+
+}); 
+
+
+</script>
+<hr>
+<footer style="text-align: center; padding: 20px 0; background-color: transparent; color: #f0f0f0; font-family: 'Poppins', sans-serif; font-size: 14px;">
+  <p style="margin: 0;"><img src="assets/art.png" alt="" style="width:1.5em; vertical-align:middle;"> Crafted with passion by <a href="https://github.com/SanketPadhyal" style="color: #00e676; text-decoration: none; font-weight: bold;">Sanket Padhyal</a>. <img src="assets/sparkling_heart.png" alt="" style="width:1.5em; vertical-align:middle;"><br> &copy; 2025. All rights reserved. <img src="assets/favicon5.png" alt="" style="width:1.5em; vertical-align:middle;"></p>
+</footer>
+
+
+</body>
+</html>
+
