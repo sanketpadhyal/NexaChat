@@ -1,6 +1,4 @@
-# NexaChat
-
-![NexaChat Banner](assets/main.png)
+# NexaChat 📌
 
 ---
 
