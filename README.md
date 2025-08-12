@@ -1,6 +1,5 @@
 # NexaChat 📌
 
----
 
 ## Introduction
 
@@ -78,6 +77,13 @@ For direct support or inquiries, contact Sanket Padhyal via GitHub or email.
 ## License
 
 This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+
+---
+
+## OWNERSHIP
+
+ Crafted with passion by Sanket Padhyal. 
+© 2025. All rights reserved. 
 
 ---
 
