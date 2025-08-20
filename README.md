@@ -3,6 +3,8 @@
 **NexaChat** 📌 is a **secure, anonymous, real-time chat platform** designed especially for **introverts and privacy-conscious users**.  
 Built by **Sanket Padhyal**, it’s my **dream project** and the **largest development so far**, combining passion, sleepless nights, and modern web technologies into one powerful application.  
 
+---
+
 ![Status](https://img.shields.io/badge/status-Active-brightgreen)  
 ![Made By](https://img.shields.io/badge/made%20by-Sanket%20Padhyal-blue)  
 
