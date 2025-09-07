@@ -3,7 +3,7 @@
 **NexaChat** 📌 is a **secure, anonymous, real-time chat platform** designed especially for **introverts and privacy-conscious users**.  
 Built by **Sanket Padhyal**, it’s my **dream project** and the **largest development so far**, combining passion, sleepless nights, and modern web technologies into one powerful application.  
 
->WORKING 100%
+
 ---
 
 ![Status](https://img.shields.io/badge/status-Active-brightgreen)  
@@ -13,7 +13,17 @@ Built by **Sanket Padhyal**, it’s my **dream project** and the **largest devel
 ![Backend](https://img.shields.io/badge/Backend-Node.js%20%7C%20Express.js-yellowgreen)  
 ![Realtime](https://img.shields.io/badge/Real--Time-WebSockets-red)  
 ![Auth](https://img.shields.io/badge/Auth-Firebase-orange)  
-![Hosting](https://img.shields.io/badge/Hosting-Netlify%20%7C%20Replit-purple)  
+![Hosting](https://img.shields.io/badge/Hosting-Netlify%20%7C%20Render-purple)  
+
+---
+
+# 📢 ALERT: BACKEND IS NOW 24×7 ONLINE 
+
+✅ The **NexaChat Backend** is now fully hosted on **Render**, which means the project is **available 24×7 without downtime**.  
+⚡ Your chat experience is smoother, faster, and always active!  
+
+![Uptime](https://img.shields.io/badge/Uptime-24×7-brightgreen)  
+![Backend Hosting](https://img.shields.io/badge/Backend-Render-blue)  
 
 ---
 
