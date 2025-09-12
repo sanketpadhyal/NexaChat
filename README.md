@@ -89,7 +89,7 @@ NexaChat is not just an app — it’s a **reflection of passion, persistence, a
 ## 🔑 Admin Panel  
 
 - Access via **About section**.  
-- Password protected (`123`).  
+- Password protected (`Demo123`).  
 - Can **erase chat history** but cannot read conversations.  
 - Only the **developer has full access**.  
 
