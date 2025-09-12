@@ -61,7 +61,7 @@ NexaChat is not just an app — it’s a **reflection of passion, persistence, a
 - 🛡️ **Privacy-Focused:** Admins cannot read chat content — only clear histories.  
 - ⚡ **Real-Time Messaging:** Low latency with **WebSockets**.  
 - 📱 **Responsive UI:** Glassmorphic design, optimized for **mobile + desktop**.  
-- 🖥️ **Admin Panel:** Accessible via **About page** with password (`123`).  
+- 🖥️ **Admin Panel:** Accessible via **About page** with password (`Demo123`).  
 
 ---
 
