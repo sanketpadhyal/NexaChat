@@ -126,3 +126,8 @@ Crafted with ❤️ and passion by **Sanket Padhyal**.
 - **Live Demo:** [https://nexachatt.netlify.app](https://nexachatt.netlify.app)  
 
 ---
+
+### 📅 Project Information
+Created: Aug 10, 2025
+
+---
